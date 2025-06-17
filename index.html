@@ -1,0 +1,107 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bangla GK Master - Your General Knowledge Companion</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Hero Section -->
+<section class="hero is-primary is-bold is-medium">
+    <div class="hero-body">
+        <div class="container has-text-centered">
+            <h1 class="title is-1">Bangla GK Master</h1>
+            <h2 class="subtitle is-3">Master General Knowledge in Bangla!</h2>
+            <p class="content">Your ultimate app for learning and mastering general knowledge in Bangla, perfect for competitive exams and quizzes.</p>
+            <a href="https://play.google.com/store/apps/details?id=com.bangla.gkappinbengali_2023" class="button is-large is-light">Download Now</a>
+        </div>
+    </div>
+</section>
+
+
+    <!-- Features Section -->
+    <section class="section">
+        <div class="container">
+            <h2 class="title has-text-centered">Why Choose Bangla GK Master?</h2>
+            <div class="columns is-multiline">
+                <div class="column is-4">
+                    <div class="box">
+                        <h3 class="title is-5">Comprehensive Content</h3>
+                        <p>Covers a wide range of topics including history, geography, science, and more in Bangla.</p>
+                    </div>
+                </div>
+                <div class="column is-4">
+                    <div class="box">
+                        <h3 class="title is-5">Interactive Quizzes</h3>
+                        <p>Test your knowledge with engaging quizzes and track your progress.</p>
+                    </div>
+                </div>
+                <div class="column is-4">
+                    <div class="box">
+                        <h3 class="title is-5">User-Friendly Interface</h3>
+                        <p>Easy-to-navigate design, perfect for learners of all ages.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action Section -->
+    <section class="section has-background-light" id="download">
+        <div class="container has-text-centered">
+            <h2 class="title">Get Started Today!</h2>
+            <p class="content">Download Bangla GK Master now and start your journey to mastering general knowledge in Bangla.</p>
+            <a href="https://play.google.com/store/apps/details?id=com.bangla.gkappinbengali_2023" class="button is-primary is-large">Download from Google Play</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="content has-text-centered">
+            <p>&copy; 2025 Bangla GK Master. All rights reserved.</p>
+            <p>Contact us: <a href="mailto:support@banglagkmaster.com">support@banglagkmaster.com</a></p>
+        </div>
+    </footer>
+</body>
+</html>

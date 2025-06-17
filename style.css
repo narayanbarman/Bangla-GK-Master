@@ -1,0 +1,47 @@
+/* Custom styles for Bangla GK Master website */
+.hero.is-primary {
+    background: linear-gradient(135deg, #1e90ff, #00b7eb);
+}
+
+.title, .subtitle {
+    color: #fff;
+}
+
+.section {
+    padding: 3rem 1.5rem;
+}
+
+.box {
+    transition: transform 0.3s ease;
+}
+
+.box:hover {
+    transform: translateY(-5px);
+}
+
+.footer {
+    background-color: #333;
+    color: #fff;
+}
+
+.footer a {
+    color: #00b7eb;
+    text-decoration: none;
+}
+
+.footer a:hover {
+    text-decoration: underline;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 768px) {
+    .hero-body {
+        padding: 2rem;
+    }
+    .title.is-1 {
+        font-size: 2.5rem;
+    }
+    .subtitle.is-3 {
+        font-size: 1.5rem;
+    }
+}
